@@ -41,6 +41,9 @@ jobs:
           sudo mv migrate /usr/bin/migrate
           which migrate
 
+      - name: Do something with a passing build
+          if: steps.wait-for-build.outputs.conclusion == 'success'
+
 ##      - name: Install golang-migrate
       - name: Run migrations
         run: make migrateup
