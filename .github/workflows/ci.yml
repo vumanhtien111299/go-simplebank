@@ -43,7 +43,9 @@ jobs:
 
 ##      - name: Install golang-migrate
       - name: Run migrations
-        run: make migrateup
+        run: |
+          make postgres
+          make migrateup
 
       - name: Test
         run: make test
