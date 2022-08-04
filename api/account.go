@@ -7,7 +7,7 @@ import (
 )
 
 type createAccountRequest struct {
-	Owner string `json:"owner" binding:"required"`
+	Owner    string `json:"owner" binding:"required"`
 	Currency string `json:"currency" binding:"required""`
 }
 
@@ -19,9 +19,9 @@ func (server *Server) createAccount(ctx *gin.Context) {
 	}
 
 	arg := db.CreateAccountParams{
-		Owner: req.Owner,
+		Owner:    req.Owner,
 		Currency: req.Currency,
-		Balance: 0,
+		Balance:  0,
 	}
 
 	account, err := server.store.CreateAccount(ctx, arg)
@@ -51,7 +51,7 @@ func (server *Server) getAccount(ctx *gin.Context) {
 }
 
 type listAccountRequest struct {
-	PageID int32 `form:"page_id" binding:"required,min=1"`
+	PageID   int32 `form:"page_id" binding:"required,min=1"`
 	PageSize int32 `form:"page_size" binding:"required,min=5,max=10"`
 }
 
@@ -62,7 +62,7 @@ func (server *Server) listAccount(ctx *gin.Context) {
 		return
 	}
 	arg := db.ListAccountParams{
-		Limit: req.PageSize,
+		Limit:  req.PageSize,
 		Offset: (req.PageID - 1) * req.PageSize,
 	}
 
