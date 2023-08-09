@@ -45,16 +45,18 @@ func (server *Server) setupRouter() {
 	router.POST("/users", server.createUser)
 	router.POST("/users/login", server.loginUser)
 
-	router.POST("/account", server.createAccount)
-	router.GET("/account/:id", server.getAccount)
-	router.GET("/accounts", server.listAccount)
+	authRouter := router.Group("/").Use(authMiddleware(server.tokenMaker))
 
-	router.POST("/transfers", server.createTransfer)
+	authRouter.POST("/account", server.createAccount)
+	authRouter.GET("/account/:id", server.getAccount)
+	authRouter.GET("/accounts", server.listAccount)
+
+	authRouter.POST("/transfers", server.createTransfer)
 
 	server.router = router
 }
 
-//Start runs the HTTP server on a specific address
+// Start runs the HTTP server on a specific address
 func (server *Server) Start(address string) error {
 	return server.router.Run(address)
 }
